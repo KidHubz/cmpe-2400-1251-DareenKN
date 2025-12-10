@@ -3,7 +3,7 @@
 -- SQL Programming basic
 -- More Practice
 
-use harsimrana_Northwind
+use dkinganjatou1_Northwind
 go
 
 drop procedure if exists SP_InsertNewCategory
@@ -23,7 +23,7 @@ as
 		begin
 			-- Alernative  II : Comment out the folliwing block 
 			/*
-			  if exists (select * from harsimrana_Northwind.dbo.Categories c where c.CategoryName = @CatName)
+			  if exists (select * from dkinganjatou1_Northwind.dbo.Categories c where c.CategoryName = @CatName)
 			  begin
 				--print 'Inside If item is already there ' + cast(@rowCount as varchar)  + ' Rows affected'
 					set @Message = 'Item is Already in the Database'
@@ -33,7 +33,7 @@ as
 			-- Alternative 1 to check if item is already there
 			-- Comment out the following one and uncomment the above to test with alternative II
 			select * 
-			from harsimrana_Northwind.dbo.Categories c
+			from dkinganjatou1_Northwind.dbo.Categories c
 			where c.CategoryName = @CatName
 
 			-- Super Global : @@identity, @@Rowcount, @@Error
@@ -51,7 +51,7 @@ as
 					-- If that category is not part of the table, insert it
 					begin transaction 
 
-						insert into harsimrana_Northwind.dbo.Categories (CategoryName)
+						insert into dkinganjatou1_Northwind.dbo.Categories (CategoryName)
 						values (@CatName)
 
 						if @@ERROR = 0   -- There is no error when last query was executed
@@ -86,7 +86,7 @@ exec sp_help Categories
 
 -- BREAK TIME 09:00 
 /* 
-use use harsimrana_IQSchool Database copy for this one
+use use dkinganjatou1_IQSchool Database copy for this one
 Create a SP to delete a club based on provided club id
 
 Make sure club id is not empty , Return 1 in that case
@@ -104,7 +104,7 @@ Otherwise save those changes permanently in db and retun 0
 
 */
 
-use harsimrana_IQSchool
+use dkinganjatou1_IQSchool
 go 
 
 drop procedure if exists SP_DeleteClub
