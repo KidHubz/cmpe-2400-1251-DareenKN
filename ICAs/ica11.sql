@@ -74,54 +74,134 @@ The 2 sample executions as shown below
 use dkinganjatou1_Northwind
 go
 
-create or alter procedure SP_CityOrdersInfo
-    @City varchar(30) = null,
-    @NumOfOrders int output,
-    @RecentOrderDate date output,
-    @TotalOrderAmt money output
-as
-    if @City is null 
-        begin
-            return -1
-        end
-    else
-        begin
-            if exists(select count(o.OrderID)
-            from dkinganjatou1_Northwind.dbo.Orders o
-                join dkinganjatou1_Northwind.dbo.Customers c
-                    on o.CustomerID = c.CustomerID
-            group by c.City
-            having c.City = @City)
-
-
-            -- select count(o.OrderID)
-            -- from dkinganjatou1_Northwind.dbo.Orders o
-            --     join dkinganjatou1_Northwind.dbo.Customers c
-            --         on o.CustomerID = c.CustomerID
-            -- group by c.City
-            -- having c.City = @City
-
-            -- declare @rowCount int = @@ROWCOUNT
-
-            -- if @rowCount > 0
-                begin  
-                    return 1
-                end  
-            else  
-                begin  
-                    begin transaction  
-
-                end  
-        end
+drop procedure if exists OrderStats
 go
 
-select count(o.OrderID)
-from dkinganjatou1_Northwind.dbo.Orders o
-    join dkinganjatou1_Northwind.dbo.Customers c
-        on o.CustomerID = c.CustomerID
-group by c.City
-having c.City = 'Berlin'
+create procedure OrderStats
+   @City varchar(30) = null,
+   @NumOfOrders int output,
+   @RecentOrderDate datetime output,
+   @TotalOrderAmt money output
+as
+   if @City is null 
+   begin
+      return -1
+   end
+   else
+   begin
+      if exists(  select 1 from NorthwindTraders.dbo.Customers c             
+                  where c.City = @City )
+      begin             
+            select  @NumOfOrders = count(distinct o.OrderID),
+                  @RecentOrderDate = max(o.OrderDate),
+                  @TotalOrderAmt = sum(od.UnitPrice * od.Quantity * (1 - od.Discount))
+            from NorthwindTraders.dbo.Orders o
+               join NorthwindTraders.dbo.Customers c
+                        on o.CustomerID = c.CustomerID
+               join  NorthwindTraders.dbo.[Order Details] od
+                  on o.OrderID = od.OrderID
+            where lower(c.City) = lower(@City)
+            group by c.City
+      end  
+   end
+go
 
-select City
-from dkinganjatou1_Northwind.dbo.Customers c
+declare @numOrders  int 
+declare @latestorder  Date 
+declare @totalamount  money
+ 
+exec OrderStats 'berlin', @numOrders  out, @latestorder  out, @totalamount out
+select 'Berlin' 'City', @numOrders 'Number of Orders', @latestorder 'Last Order', @totalamount 'Total'
+
+exec OrderStats 'VANCOUVER', @numorders out, @latestorder out, @totalamount out
+
+select 'Vancouver' 'City', @numorders 'Number of Orders', @latestorder 'Last Order', @totalamount 'Total'
+
+-- Question 4
+/*
+This question requires creating a stored procedure in your own DB, and referencing the globally available Northwind db in your stored procedure 
+
+Create a procedure that will accept a parameter for CategoryName. The user can supply the start of a category name (ie Dairy instead of Dairy Products).
+
+The procedure will display the CategoryName, ProductID, ProductName and UnitsInStock for all products that match the provided Category. If no category is entered, all products of all categories are returned. Order the results by CategoryName then ProductName. 
+
+Paste your SQL statement below - this question will be graded manually by your instructor.
+
+Include:
+
+Use statement for your DB
+drop procedure if it exists
+create procedure
+The 2 sample executions as shown below
+*/
+
+use dkinganjatou1_Northwind
+go 
+
+drop procedure if exists ProductsForCategories
+go
+
+create procedure ProductsForCategories
+    @CategoryName varchar(30) = null
+as
+   begin
+      if @CategoryName is null or len(@CategoryName) = 0
+      begin
+         select   c.CategoryName,
+                  p.ProductID,
+                  p.ProductName,
+                  p.UnitsInStock
+         from NorthwindTraders.dbo.Products p
+            join NorthwindTraders.dbo.Categories c
+               on c.CategoryID = p.CategoryID
+         order by c.CategoryName, p.ProductName
+         return            
+      end  
+      if exists(
+                  select 1 from NorthwindTraders.dbo.Categories c
+                  where c.CategoryName like @CategoryName + '%'
+               )
+      begin 
+         select   c.CategoryName,
+                  p.ProductID,
+                  p.ProductName,
+                  p.UnitsInStock
+         from NorthwindTraders.dbo.Products p
+            join NorthwindTraders.dbo.Categories c
+               on c.CategoryID = p.CategoryID
+         where c.CategoryName like @CategoryName + '%'
+         order by c.CategoryName, p.ProductName
+      end  
+   end    
+go  
+
+exec ProductsForCategories
+
+exec ProductsForCategories 'Dairy'
+go
+
+-- Question 5
+/*
+This question requires your own copy of NorthwindTraders 
+
+Northwind has received many complaints about products sold in the Grains/Cereals category. Accounting wants to double all discounts for existing Order Details in that category to compensate. Any orders with no current discount remain unchanged.
+
+Create a Stored Procedure that updates Order Details records per the above and returns the number of rows that have been updated. If an error occurs, the stored procedure must undo any work and return -1. 
+
+Include the following:
+
+Appropriate use statement for your DB
+The stored procedure drop statement (if it exists)
+Stored Procedure Create
+A statement that executes the created stored procedure, stores the return value, and displays it to the screen
+*/
+
+
+
+
+
+
+
+
+
     
