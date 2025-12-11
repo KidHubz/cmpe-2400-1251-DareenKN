@@ -209,38 +209,36 @@ go
 create procedure SP_UpdateGrainDiscounts
 as
    begin 
-      begin transaction
-
-         declare @rowCount int = null
-
+      declare @rowCount int = null
+      begin try
+        begin transaction         
          update od 
-         set od.Discount = od.Discount / 2.0
+         set od.Discount = od.Discount * 2
          from dkinganjatou1_Northwind.dbo.[Order Details] od
          join dkinganjatou1_Northwind.dbo.Products p
             on p.ProductID = od.ProductID
          join dkinganjatou1_Northwind.dbo.Categories c
             on c.CategoryID = p.CategoryID
-         where CategoryName = 'Grains/Cereals'
+         where c.CategoryName = 'Grains/Cereals'
          and od.discount <> 0
 
          set @rowCount = @@ROWCOUNT
+         commit transaction
+         return @rowCount
+      end try
 
-         if @@Error = 0
-            begin
-               commit
-                  return @rowCount
-            end  
-         else 
-            begin 
-               rollback 
-               return -1
-            end
+      begin catch
+         if @@TRANCOUNT > 0
+         rollback 
+         return -1
+      end catch        
    end
 go
 
-declare @Result int
-
-exec @Result = SP_UpdateGrainDiscounts
+declare @returnValue int
+exec @returnValue = SP_UpdateGrainDiscounts
+print 'Rows updated: ' + cast(@returnValue as varchar)
+go
 
 exec sp_help Categories
 
