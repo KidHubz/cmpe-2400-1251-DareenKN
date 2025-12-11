@@ -1,23 +1,23 @@
--- -- Question 1
--- /*
--- You found a stored procedure that is already built in to SQL Server! Look at the following execution samples, assuming NorthwindTraders database, and answer the following questions.
--- */
--- use NorthwindTraders
--- go 
+-- Question 1
+/*
+You found a stored procedure that is already built in to SQL Server! Look at the following execution samples, assuming NorthwindTraders database, and answer the following questions.
+*/
+use NorthwindTraders
+go 
 
--- -- exec sp_depends @objname = 'Order Details'
+exec sp_depends @objname = 'Order Details'
 
--- -- exec sp_depends 'Order Details'
+exec sp_depends 'Order Details'
 
--- -- exec sp_depends
+exec sp_depends
 
--- /*
--- Which of the above executions will display dependencies for 'Order Details'	
--- - Execution on Line 1
--- - Execution on Line 3
--- - Execution on Line 5
--- - None of the Above
--- */
+/*
+Which of the above executions will display dependencies for 'Order Details'	
+- Execution on Line 1
+- Execution on Line 3
+- Execution on Line 5
+- None of the Above
+*/
 
 -- -- Question 2
 -- /*
@@ -83,7 +83,7 @@ create procedure OrderStats
    @RecentOrderDate datetime output,
    @TotalOrderAmt money output
 as
-   if @City is null 
+   if @City is null or len(@City) > 30
    begin
       return -1
    end
@@ -105,6 +105,8 @@ as
       end  
    end
 go
+
+exec sp_help Customers
 
 declare @numOrders  int 
 declare @latestorder  Date 
@@ -175,6 +177,8 @@ as
    end    
 go  
 
+exec sp_help Categories
+
 exec ProductsForCategories
 
 exec ProductsForCategories 'Dairy'
@@ -196,12 +200,106 @@ Stored Procedure Create
 A statement that executes the created stored procedure, stores the return value, and displays it to the screen
 */
 
+use dkinganjatou1_Northwind
+go
+
+drop procedure if exists SP_UpdateGrainDiscounts
+go
+
+create procedure SP_UpdateGrainDiscounts
+as
+   begin 
+      begin transaction
+
+         declare @rowCount int = null
+
+         update od 
+         set od.Discount = od.Discount / 2.0
+         from dkinganjatou1_Northwind.dbo.[Order Details] od
+         join dkinganjatou1_Northwind.dbo.Products p
+            on p.ProductID = od.ProductID
+         join dkinganjatou1_Northwind.dbo.Categories c
+            on c.CategoryID = p.CategoryID
+         where CategoryName = 'Grains/Cereals'
+         and od.discount <> 0
+
+         set @rowCount = @@ROWCOUNT
+
+         if @@Error = 0
+            begin
+               commit
+                  return @rowCount
+            end  
+         else 
+            begin 
+               rollback 
+               return -1
+            end
+   end
+go
+
+declare @Result int
+
+exec @Result = SP_UpdateGrainDiscounts
+
+exec sp_help Categories
 
 
-
-
-
-
+select *
+from Categories
+where CategoryName = 'Grains/Cereals'
 
 
     
+select od.Discount
+from [Order Details] od
+   join Products p
+      on p.ProductID = od.ProductID
+   join Categories c
+      on c.CategoryID = p.CategoryID
+where CategoryName = 'Grains/Cereals'
+and od.discount <> 0
+
+use dkinganjatou1_Northwind
+go
+
+drop procedure if exists SP_UpdateGrainDiscounts
+go
+
+create procedure SP_UpdateGrainDiscounts
+as
+begin
+    declare @rowCount int = 0
+
+    begin try
+        begin transaction
+
+        update od 
+        set od.Discount = od.Discount * 2.0
+        from dkinganjatou1_Northwind.dbo.[Order Details] od
+            join dkinganjatou1_Northwind.dbo.Products p
+                on p.ProductID = od.ProductID
+            join dkinganjatou1_Northwind.dbo.Categories c
+                on c.CategoryID = p.CategoryID
+        where c.CategoryName = 'Grains/Cereals'
+          and od.Discount > 0;
+
+        set @rowCount = @@ROWCOUNT
+
+        commit
+
+        return @rowCount
+    end try
+
+    begin catch
+        if @@TRANCOUNT > 0
+            rollback 
+
+        return -1
+    end catch
+end
+go
+
+declare @Result int
+
+exec @Result = SP_UpdateGrainDiscounts
