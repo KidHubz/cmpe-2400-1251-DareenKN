@@ -129,3 +129,41 @@ as
       commit
       return 0 --no error occurred
 go
+
+-- Question 2
+/*
+This question involves a stored procedure and transactions.
+
+Northwind Traders is experimenting with using sensors, and has provided you with some tables. You are requested to complete some work in regards to this experiment.
+
+** Ensure you are using your LOCAL Northwind Database before running any code for this question. **
+
+Part 1: Copy and paste this code into a blank Query window: [required]. Note these tables will be used in your stored procedure - refer to them as needed!
+
+--USE YOUR LOCAL NORTHWIND!!
+
+drop table if exists Readings
+go
+
+drop table if exists Sensors
+go
+
+create table Sensors 
+(
+    SensorId        tinyint            not null    
+        primary key clustered,
+    [Description]    varchar(50)        not null,
+    Location        varchar(50)        not null
+)
+go
+
+create table Readings 
+(
+    SensorId        tinyint            not null
+        constraint FK_SensorId foreign key references Sensors(SensorId),
+    TimeStampValue    datetime        not null,
+    [Value]            smallint        not null,    constraint PK_SensorId_TimeStampValue 
+        primary key clustered (SensorId,TimeStampValue) --composite primary key
+)
+go
+*/
