@@ -113,7 +113,7 @@ print 'Sum of numbers = ' + convert(varchar(10),@sum)
 
 --3. User Defined functions/ Stored Procedure
 
-use harsimrana_pubs
+use dkinganjatou1_pubs
 go 
 -- Alternative 1
 drop procedure if exists SP_AuthorNames
@@ -133,7 +133,7 @@ go
 
 create procedure SP_AuthorNames
 as
-	select au_fname + ' '+ au_lname as 'AuthorName' from harsimrana_pubs.dbo.authors
+	select au_fname + ' '+ au_lname as 'AuthorName' from dkinganjatou1_pubs.dbo.authors
 go
 
 -- To run stored procedure 
@@ -153,7 +153,7 @@ create procedure SP_TitlesInfo (@TitleId  varchar(6) = 'BU1032' )
 -- you can inlcude paramenters
 as
 	select * 
-	from harsimrana_pubs.dbo.titles t
+	from dkinganjatou1_pubs.dbo.titles t
 	where t.title_id = @TitleId 
 go
 
