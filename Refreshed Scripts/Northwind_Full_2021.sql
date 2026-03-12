@@ -17,80 +17,82 @@ PRESS F5 TO EXECUTE THE SCRIPT.
 
 USE [master]
 GO
-/****** Object:  Database [NorthwindTraders]    Script Date: 6/16/2021 9:41:32 AM ******/
-DROP DATABASE if exists [NorthwindTraders]
+/****** Object:  Database [dkinganjatou1_NorthwindTraders]    Script Date: 6/16/2021 9:41:32 AM ******/
+DROP DATABASE if exists [dkinganjatou1_NorthwindTraders]
 GO
-/****** Object:  Database [NorthwindTraders]    Script Date: 6/16/2021 9:41:32 AM ******/
-CREATE DATABASE [NorthwindTraders]
+/****** Object:  Database [dkinganjatou1_NorthwindTraders]    Script Date: 6/16/2021 9:41:32 AM ******/
+CREATE DATABASE [dkinganjatou1_NorthwindTraders]
 GO
-ALTER DATABASE [NorthwindTraders] SET COMPATIBILITY_LEVEL = 140
-GO
-IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
-begin
-EXEC [NorthwindTraders].[dbo].[sp_fulltext_database] @action = 'enable'
-end
-GO
-ALTER DATABASE [NorthwindTraders] SET ANSI_NULL_DEFAULT OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET ANSI_NULLS OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET ANSI_PADDING OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET ANSI_WARNINGS OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET ARITHABORT OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET AUTO_CLOSE OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET AUTO_SHRINK OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET AUTO_UPDATE_STATISTICS ON 
-GO
-ALTER DATABASE [NorthwindTraders] SET CURSOR_CLOSE_ON_COMMIT OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET CURSOR_DEFAULT  GLOBAL 
-GO
-ALTER DATABASE [NorthwindTraders] SET CONCAT_NULL_YIELDS_NULL OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET NUMERIC_ROUNDABORT OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET QUOTED_IDENTIFIER OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET RECURSIVE_TRIGGERS OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET  ENABLE_BROKER 
-GO
-ALTER DATABASE [NorthwindTraders] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET DATE_CORRELATION_OPTIMIZATION OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET TRUSTWORTHY OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET ALLOW_SNAPSHOT_ISOLATION OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET PARAMETERIZATION SIMPLE 
-GO
-ALTER DATABASE [NorthwindTraders] SET READ_COMMITTED_SNAPSHOT OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET HONOR_BROKER_PRIORITY OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET RECOVERY FULL 
-GO
-ALTER DATABASE [NorthwindTraders] SET  MULTI_USER 
-GO
-ALTER DATABASE [NorthwindTraders] SET PAGE_VERIFY CHECKSUM  
-GO
-ALTER DATABASE [NorthwindTraders] SET DB_CHAINING OFF 
-GO
-ALTER DATABASE [NorthwindTraders] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
-GO
-ALTER DATABASE [NorthwindTraders] SET TARGET_RECOVERY_TIME = 60 SECONDS 
-GO
-ALTER DATABASE [NorthwindTraders] SET DELAYED_DURABILITY = DISABLED 
-GO
-ALTER DATABASE [NorthwindTraders] SET QUERY_STORE = OFF
-GO
-USE [NorthwindTraders]
+
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET COMPATIBILITY_LEVEL = 140
+--GO
+--IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+--begin
+--EXEC [dkinganjatou1_NorthwindTraders].[dbo].[sp_fulltext_database] @action = 'enable'
+--end
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET ANSI_NULL_DEFAULT OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET ANSI_NULLS OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET ANSI_PADDING OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET ANSI_WARNINGS OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET ARITHABORT OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET AUTO_CLOSE OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET AUTO_SHRINK OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET AUTO_UPDATE_STATISTICS ON 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET CURSOR_CLOSE_ON_COMMIT OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET CURSOR_DEFAULT  GLOBAL 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET CONCAT_NULL_YIELDS_NULL OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET NUMERIC_ROUNDABORT OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET QUOTED_IDENTIFIER OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET RECURSIVE_TRIGGERS OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET  ENABLE_BROKER 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET DATE_CORRELATION_OPTIMIZATION OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET TRUSTWORTHY OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET PARAMETERIZATION SIMPLE 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET READ_COMMITTED_SNAPSHOT OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET HONOR_BROKER_PRIORITY OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET RECOVERY FULL 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET  MULTI_USER 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET PAGE_VERIFY CHECKSUM  
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET DB_CHAINING OFF 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET DELAYED_DURABILITY = DISABLED 
+--GO
+--ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET QUERY_STORE = OFF
+--GO
+
+USE [dkinganjatou1_NorthwindTraders]
 GO
 /****** Object:  Table [dbo].[Customers]    Script Date: 6/16/2021 9:41:32 AM ******/
 SET ANSI_NULLS ON
@@ -4404,5 +4406,5 @@ ORDER BY Products.UnitPrice DESC
 GO
 USE [master]
 GO
-ALTER DATABASE [NorthwindTraders] SET  READ_WRITE 
+ALTER DATABASE [dkinganjatou1_NorthwindTraders] SET  READ_WRITE 
 GO
